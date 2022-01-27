@@ -9,6 +9,7 @@ const BASE_URL = 'https://hack-or-snooze-v3.herokuapp.com';
 class Story {
 	/** Make instance of Story from data object about story:
    *   - {title, author, url, username, storyId, createdAt}
+   *	- Think of constructor functions on classes as a way of setting properties on a class whenever it is invoked so that the instances can be used with the arguments passed. 
    */
 
 	constructor({ storyId, title, author, url, username, createdAt }) {
@@ -24,10 +25,13 @@ class Story {
 
 	getHostName() {
 		// UNIMPLEMENTED: complete this function!
-		return 'hostname.com';
+		const url = new URL(this.url);
+		// url variable uses URL() API class to generate a url object from the string passed which contains a hostname property which will have the domain name as the value for the url passed.
+		// NOTE: if the url is not in a valid format (missing http:// or https://)
+
+		return url.hostname;
+		// returns the value of the hostname property from url object.
 	}
-	// NOTE FOR FUTURE DIEGO:
-	// TRY READING THIS SO THREAD AND LOOKING UP URL IN MDN -> https://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
 }
 
 /******************************************************************************
@@ -47,11 +51,13 @@ class StoryList {
    *  - returns the StoryList instance.
    */
 
+	// NOTE: static keywowd makes function callable on the class itself NOT the new instance of the class that is created via variables.
 	static async getStories() {
 		// Note presence of `static` keyword: this indicates that getStories is
 		//  **not** an instance method. Rather, it is a method that is called on the
 		//  class directly. Why doesn't it make sense for getStories to be an
 		//  instance method?
+		// POSSIBLE ANSWER: because getStories should only be run from the class itself instead of a varible as it will call the list every time? Prevents duplication.
 
 		// query the /stories endpoint (no auth required)
 		const response = await axios({
@@ -73,8 +79,25 @@ class StoryList {
    * Returns the new Story instance
    */
 
-	async addStory(/* user, newStory */) {
+	async addStory(user, { title, author, url }) {
 		// UNIMPLEMENTED: complete this function!
+		// this line correlates with User class which is where the user information is being accessed from and where the token is stored.
+		// const token = user.loginToken;
+		const payload = {
+			token: user.loginToken,
+			story: {
+				author: author,
+				title: title,
+				url: url
+			}
+		};
+		const res = axios.post(`${BASE_URL}/stories`, {
+			data: { token: user.loginToken, story: { author: author, title: title, url: url } }
+		});
+
+		const story = new Story(res.data.story);
+
+		// unsure if this is what is being requested.
 	}
 }
 
