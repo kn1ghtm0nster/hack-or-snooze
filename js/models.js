@@ -83,21 +83,24 @@ class StoryList {
 		// UNIMPLEMENTED: complete this function!
 		// this line correlates with User class which is where the user information is being accessed from and where the token is stored.
 		// const token = user.loginToken;
-		const payload = {
-			token: user.loginToken,
-			story: {
-				author: author,
-				title: title,
-				url: url
-			}
-		};
+		// const payload = {
+		// 	token: user.loginToken,
+		// 	story: {
+		// 		author: author,
+		// 		title: title,
+		// 		url: url
+		// 	}
+		// };
 		const res = axios.post(`${BASE_URL}/stories`, {
 			data: { token: user.loginToken, story: { author: author, title: title, url: url } }
 		});
 
 		const story = new Story(res.data.story);
-
+		this.stories.unshift(story);
+		// line above is making sure the most recent story is pushed to the front of the list (basically making sure that the most recent story is displayed in website). List of stories is created whenever the instance of storyList is called.
 		// unsure if this is what is being requested.
+		return story;
+		// function returns a new instance of stories list class.
 	}
 }
 
