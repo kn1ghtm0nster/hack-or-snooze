@@ -92,7 +92,7 @@ class StoryList {
 		// 	}
 		// };
 		const res = axios.post(`${BASE_URL}/stories`, {
-			data: { token: user.loginToken, story: { author: author, title: title, url: url } }
+			data: { token: user.loginToken, story: { author, title, url } }
 		});
 
 		const story = new Story(res.data.story);
