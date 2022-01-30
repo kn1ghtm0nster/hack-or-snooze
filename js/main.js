@@ -8,7 +8,7 @@ const $body = $('body');
 // variable is selecting the stories-loading-msg id from html
 const $storiesLoadingMsg = $('#stories-loading-msg');
 
-// variable is slecting all-stories-list (empty ol) id from html
+// variable is slecting all-stories-list (empty ol in html file) id from html
 const $allStoriesList = $('#all-stories-list');
 
 // variable is slecting the login-form id (login form section) from html
