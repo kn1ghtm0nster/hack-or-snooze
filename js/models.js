@@ -1,6 +1,9 @@
 'use strict';
 
 const BASE_URL = 'https://hack-or-snooze-v3.herokuapp.com';
+const TOKEN =
+	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR1bW15MSIsImlhdCI6MTY0MzA4MTcwNH0.f38psydNA4STTKCm5rC_ufl1xwHPrKetBhhJK3g4lGg';
+// NOTE: token above is a TEST token for testing class methods REMOVE THIS.
 
 /******************************************************************************
  * Story: a single story in the system
@@ -79,24 +82,23 @@ class StoryList {
    * Returns the new Story instance
    */
 
+	// async secondAddStory(user, { title, author, url }) {
+	// 	const res = await axios.post(`${BASE_URL}/stories`, {
+	// 		token: TOKEN,
+	// 		story: { author, title, url }
+	// 	});
+	// 	const story = new Story(res.data.story);
+	// 	return story;
+	// }
+
 	async addStory(user, { title, author, url }) {
 		// UNIMPLEMENTED: complete this function!
 		// this line correlates with User class which is where the user information is being accessed from and where the token is stored.
-		// const token = user.loginToken;
-		// const payload = {
-		// 	token: user.loginToken,
-		// 	story: {
-		// 		author: author,
-		// 		title: title,
-		// 		url: url
-		// 	}
-		// };
-		const res = axios.post(`${BASE_URL}/stories`, {
+		const res = await axios.post(`${BASE_URL}/stories`, {
 			data: { token: user.loginToken, story: { author, title, url } }
 		});
-
 		const story = new Story(res.data.story);
-		this.stories.unshift(story);
+		// this.stories.unshift(story);
 		// line above is making sure the most recent story is pushed to the front of the list (basically making sure that the most recent story is displayed in website). List of stories is created whenever the instance of storyList is called.
 		// unsure if this is what is being requested.
 		return story;
