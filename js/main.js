@@ -17,12 +17,17 @@ const $loginForm = $('#login-form');
 // variable is slecting the signup-form id (sign up form different from login)
 const $signupForm = $('#signup-form');
 
+// variable is selecting the story-form id (to add a new story hidden by default)
+const $storyForm = $('#story-form');
+
 // variable is selecting the nav-login id (login links at the top of page)
 const $navLogin = $('#nav-login');
 // variable is selecting the nav-user-profile id (link that takes you to user profile view?)
 const $navUserProfile = $('#nav-user-profile');
 // variable is selecting the nav-logout id (link to log out of current user account)
 const $navLogOut = $('#nav-logout');
+// variable is selecting the nav-submit id (link to show submit form for new story)
+const $submit = $('#nav-submit');
 
 /** To make it easier for individual components to show just themselves, this
  * is a useful function that hides pretty much everything on the page. After

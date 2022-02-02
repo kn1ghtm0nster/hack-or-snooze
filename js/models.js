@@ -82,14 +82,15 @@ class StoryList {
    * Returns the new Story instance
    */
 
-	// async secondAddStory(user, { title, author, url }) {
-	// 	const res = await axios.post(`${BASE_URL}/stories`, {
-	// 		token: TOKEN,
-	// 		story: { author, title, url }
-	// 	});
-	// 	const story = new Story(res.data.story);
-	// 	return story;
-	// }
+	async secondAddStory(user, { title, author, url }) {
+		console.log(`${title} ${author}, ${url}`);
+		const res = await axios.post(`${BASE_URL}/stories`, {
+			token: TOKEN,
+			story: { author, title, url }
+		});
+		const story = new Story(res.data.story);
+		return story;
+	}
 
 	async addStory(user, { title, author, url }) {
 		// UNIMPLEMENTED: complete this function!
@@ -105,6 +106,14 @@ class StoryList {
 		// function returns a new instance of stories list class.
 	}
 }
+
+// const testStoryList = new StoryList();
+// testStoryList.secondAddStory('no', {
+// 	author: 'TEST',
+// 	title: 'REMOVE ME',
+// 	url:
+// 		'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+// });
 
 /******************************************************************************
  * User: a user in the system (only used to represent the current user)

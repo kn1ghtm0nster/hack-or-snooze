@@ -10,6 +10,7 @@ function navAllStories(evt) {
 	console.debug('navAllStories', evt);
 	hidePageComponents();
 	putStoriesOnPage();
+	$storyForm.hide();
 }
 
 $body.on('click', '#nav-all', navAllStories);
@@ -35,5 +36,12 @@ function updateNavOnLogin() {
 	$navUserProfile.text(`${currentUser.username}`).show();
 }
 
-// TODO:
-// implement function to show new story form and HIDE main story list whenever submit link is clicked.
+/* When a user clicks on the 'submit' link, add story view appears and hides main list view.*/
+
+function submitLinkClick(evt) {
+	console.debug('submitLinkClick', evt);
+	$storyForm.show();
+	$allStoriesList.hide();
+}
+
+$submit.on('click', submitLinkClick);
