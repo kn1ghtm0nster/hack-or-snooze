@@ -51,33 +51,32 @@ function putStoriesOnPage() {
 	$allStoriesList.show();
 }
 
-function formEventHandler(evt) {
-	console.debug('formEventHandler');
-	evt.preventDefault();
-	const $title = $('#story-name').val();
-	const $author = $('#story-author').val();
-	const $url = $('#story-url').val();
-	const dataObject = {
-		title: $title,
-		author: $author,
-		url: $url
-	};
-	$('#story-name').val('');
-	$('#story-author').val('');
-	$('#story-url').val('');
-	const newStory = new StoryList();
-	newStory.secondAddStory('test', dataObject);
-	// console.log(newStory);
-	// console.log(dataObject);
-	// getAndShowStoriesOnStart()
-	$allStoriesList.show();
-	$storyForm.hide();
-	putStoriesOnPage();
+async function submitNewStory(evt) {
+	try {
+		console.debug('submitNewStory');
+		evt.preventDefault();
+		const $title = $('#story-name').val();
+		const $author = $('#story-author').val();
+		const $url = $('#story-url').val();
+		const username = currentUser.username;
+		const storyObject = {
+			title: $title,
+			author: $author,
+			url: $url,
+			username
+		};
+		$('#story-name').val('');
+		$('#story-author').val('');
+		$('#story-url').val('');
+		await storyList.addStory(currentUser, storyObject);
+		// console.log(newStory);
+		// console.log(dataObject);
+		getAndShowStoriesOnStart();
+		$allStoriesList.show();
+		$storyForm.hide();
+	} catch (e) {
+		console.log('submitNewStory Failed!', e);
+	}
 }
 
-$storyForm.on('submit', formEventHandler);
-
-// TODO URGENT:
-// LINE 69, the first argument of the class method does NOT need to be 'test' but instead the actual instance of the user that is currently logged in. You're going to hve to tweak that!!!
-// the rest can stay
-// try putting first function before the hide and show functions to see if the desired outcome happens after submitting a new story.
+$storyForm.on('submit', submitNewStory);
