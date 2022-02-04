@@ -19,12 +19,17 @@ async function getAndShowStoriesOnStart() {
  * Returns the markup for the story.
  */
 
-function generateStoryMarkup(story) {
+function generateStoryMarkup(story, deleteBtn = false) {
 	// console.debug("generateStoryMarkup", story);
 
 	const hostName = story.getHostName();
+
+	// variable is checking to see if a user is logged in or not to display the star icon
+	const starShown = Boolean(currentUser);
 	return $(`
       <li id="${story.storyId}">
+	  	${deleteBtn ? deleteIcon() : ''}
+		${starShown ? generateStar(story, currentUser) : ''}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -33,6 +38,45 @@ function generateStoryMarkup(story) {
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
+}
+
+function addFavoritesToPage() {
+	console.debug('addFavoritesToPage');
+
+	$favoritesList.empty();
+
+	if (currentUser.favorites.length === 0) {
+		$favoritesList.append('<h5> No favorites currently for this user!');
+	} else {
+		for (let favorite of currentUser.favorites) {
+			const $story = generateStoryMarkup(favorite);
+			$favoritesList.append($story);
+		}
+	}
+	$favoritesList.show();
+}
+
+function generateStar(story, user) {
+	// accessing the isFavorite function from models.js file to see if the storyId passesd is a favorite story for the user passed in.
+	const isFavorite = user.isFavorite(story);
+	let fontAwesomeStar;
+	if (isFavorite) {
+		fontAwesomeStar = 'fas';
+	} else {
+		fontAwesomeStar = 'far';
+	}
+	return `
+	<span class="star">
+		<i class="${fontAwesomeStar} fa-star"></i>
+	</span>
+	`;
+}
+
+function deleteIcon() {
+	return `
+	<span class="trash-can">
+	  <i class="fas fa-trash-alt"></i>
+	</span>`;
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -80,3 +124,25 @@ async function submitNewStory(evt) {
 }
 
 $storyForm.on('submit', submitNewStory);
+
+async function enableOrDisableFavorites(evt) {
+	console.debug('enableOrDisableFavorites');
+
+	const $target = $(evt.target);
+	console.log($target);
+	const $closestElement = $target.closest('li');
+	console.log($closestElement);
+	const storyId = $closestElement.attr('id');
+	console.log(storyId);
+	const story = storyList.stories.find((s) => s.storyId === storyId);
+
+	if ($target.hasClass('fas')) {
+		await currentUser.removeFromFavorites(story);
+		$target.closest('i').toggleClass('fas far');
+	} else {
+		await currentUser.addToFavorites(story);
+		$target.closest('i').toggleClass('fas far');
+	}
+}
+
+$storyLists.on('click', '.star', enableOrDisableFavorites);

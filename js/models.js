@@ -29,7 +29,7 @@ class Story {
 		// url variable uses URL() API class to generate a url object from the string passed which contains a hostname property which will have the domain name as the value for the url passed.
 		// NOTE: if the url is not in a valid format (missing http:// or https://)
 
-		return url.hostname;
+		return url.host;
 		// returns the value of the hostname property from url object.
 	}
 }
@@ -206,5 +206,37 @@ class User {
 		}
 	}
 
-	addToFavorites(username, storyId) {}
+	// function pushes story to empty favorites array.
+	async addToFavorites(story) {
+		this.favorites.push(story);
+		await this._addOrRemoveFromFavorites('add', story);
+	}
+
+	// function will filter the favorites array and return a new array that does NOT contain the specific story.storyId.
+	async removeFromFavorites(story) {
+		this.favorites = this.favorites.filter((s) => s.storyId !== story.storyId);
+		await this._addOrRemoveFromFavorites('remove', story);
+	}
+
+	// function will change the status (add or remove from favorites array) of a story depending on which function this function is run under.
+	async _addOrRemoveFromFavorites(storyStatus, story) {
+		let method;
+		if (storyStatus === 'add') {
+			method = 'POST';
+		} else if (storyStatus === 'remove') {
+			method = 'DELETE';
+		}
+		const token = this.loginToken;
+		await axios({
+			url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+			method: method,
+			data: { token }
+		});
+	}
+
+	// function was taken from solution code!
+	// purpose of fucntion is to review the Story class and verify if any of the instances are favorites for the logged in user (boolean function).
+	isFavorite(story) {
+		return this.favorites.some((s) => s.storyId === story.storyId);
+	}
 }
