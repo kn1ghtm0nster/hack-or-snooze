@@ -12,6 +12,7 @@ function navAllStories(evt) {
 	putStoriesOnPage();
 	$storyForm.hide();
 	$favoritesList.hide();
+	$userStoriesList.hide();
 }
 
 $body.on('click', '#nav-all', navAllStories);
@@ -44,6 +45,7 @@ function submitLinkClick(evt) {
 	$storyForm.show();
 	$allStoriesList.hide();
 	$favoritesList.hide();
+	$userStoriesList.hide();
 }
 
 $submit.on('click', submitLinkClick);
@@ -65,6 +67,7 @@ $favorites.on('click', favoritesLinkClick);
 
 function myStoriesLinkClick(evt) {
 	console.debug('myStoriesLinkClick');
+	addMyStoriesToPage();
 	$userStoriesList.show();
 	$allStoriesList.hide();
 	$favoritesList.hide();
@@ -72,6 +75,3 @@ function myStoriesLinkClick(evt) {
 }
 
 $myStories.on('click', myStoriesLinkClick);
-
-// TODO:
-// make sure you put hide methods for the last two functions to hide whenever a user clicks somewhere else otherwise the list will remain on page.

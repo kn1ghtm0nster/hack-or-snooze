@@ -96,6 +96,21 @@ class StoryList {
 		return story;
 		// function returns a new instance of story class.
 	}
+
+	async deleteStory(user, storyId) {
+		const token = user.loginToken;
+		await axios({
+			method: 'DELETE',
+			url: `${BASE_URL}/stories/${storyId}`,
+			data: { token: token }
+		});
+
+		// logic below removes the specified story id from the MASTER story list (which is passed originally)
+		this.stories = this.stories.filter((s) => s.storyId !== storyId);
+
+		user.ownStories = user.ownStories.filter((s) => s.storyId !== storyId);
+		user.favorites = user.favorites.filter((s) => s.storyId !== storyId);
+	}
 }
 
 /******************************************************************************
