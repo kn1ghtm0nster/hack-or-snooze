@@ -224,17 +224,17 @@ class User {
 	// function pushes story to empty favorites array.
 	async addToFavorites(story) {
 		this.favorites.push(story);
-		await this._addOrRemoveFromFavorites('add', story);
+		await this.addOrRemoveFromFavorites('add', story);
 	}
 
 	// function will filter the favorites array and return a new array that does NOT contain the specific story.storyId.
 	async removeFromFavorites(story) {
 		this.favorites = this.favorites.filter((s) => s.storyId !== story.storyId);
-		await this._addOrRemoveFromFavorites('remove', story);
+		await this.addOrRemoveFromFavorites('remove', story);
 	}
 
 	// function will change the status (add or remove from favorites array) of a story depending on which function this function is run under.
-	async _addOrRemoveFromFavorites(storyStatus, story) {
+	async addOrRemoveFromFavorites(storyStatus, story) {
 		let method;
 		if (storyStatus === 'add') {
 			method = 'POST';
