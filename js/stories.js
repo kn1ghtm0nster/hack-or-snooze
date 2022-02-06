@@ -6,6 +6,7 @@ let storyList;
 /** Get and show stories when site first loads. */
 
 async function getAndShowStoriesOnStart() {
+	// Function is responsible for creating a new instance of StoryList class once the page starts.
 	storyList = await StoryList.getStories();
 	$storiesLoadingMsg.remove();
 
