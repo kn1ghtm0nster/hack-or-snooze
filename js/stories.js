@@ -7,7 +7,14 @@ let storyList;
 
 async function getAndShowStoriesOnStart() {
 	// Function is responsible for creating a new instance of StoryList class once the page starts.
+	if (currentUser) {
+		showLinkTags();
+	} else {
+		hideLinkTags();
+	}
+
 	storyList = await StoryList.getStories();
+
 	$storiesLoadingMsg.remove();
 
 	putStoriesOnPage();
@@ -27,6 +34,7 @@ function generateStoryMarkup(story, deleteBtn = false) {
 
 	// variable is checking to see if a user is logged in or not to display the star icon
 	const starShown = Boolean(currentUser);
+
 	return $(`
       <li id="${story.storyId}">
 	  	${deleteBtn ? deleteIcon() : ''}

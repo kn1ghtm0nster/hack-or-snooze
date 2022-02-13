@@ -50,6 +50,9 @@ const $myStories = $('#nav-my-stories');
 // variable is selecting the nav-user-profile id (link to view the user profile)
 const $userProfile = $('#nav-user-profile');
 
+// variable is selecting the p tag that contains all the links for a user to click.
+const $allLinks = $('#all-links');
+
 /** To make it easier for individual components to show just themselves, this
  * is a useful function that hides pretty much everything on the page. After
  * calling this, individual components can re-show just what they want.
@@ -58,6 +61,14 @@ const $userProfile = $('#nav-user-profile');
 function hidePageComponents() {
 	const components = [ $allStoriesList, $loginForm, $signupForm ];
 	components.forEach((c) => c.hide());
+}
+
+function hideLinkTags() {
+	$allLinks.hide();
+}
+
+function showLinkTags() {
+	$allLinks.show();
 }
 
 /** Overall function to kick off the app. */

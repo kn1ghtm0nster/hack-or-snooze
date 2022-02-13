@@ -25,8 +25,10 @@ async function login(evt) {
 
 	saveUserCredentialsInLocalStorage();
 	updateUIOnUserLogin();
+	showLinkTags();
 	$loginForm.hide();
 	$signupForm.hide();
+	putStoriesOnPage();
 }
 
 $loginForm.on('submit', login);
@@ -47,6 +49,7 @@ async function signup(evt) {
 
 	saveUserCredentialsInLocalStorage();
 	updateUIOnUserLogin();
+	showLinkTags();
 
 	$signupForm.trigger('reset');
 
@@ -114,6 +117,8 @@ function saveUserCredentialsInLocalStorage() {
 
 function updateUIOnUserLogin() {
 	console.debug('updateUIOnUserLogin');
+
+	$allStoriesList.hide();
 
 	$allStoriesList.show();
 
